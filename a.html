@@ -7,16 +7,112 @@
 	<link rel="stylesheet" href="">
 	<style type="text/css" media="screen">
 		*{margin:0;padding:0;}
-		div{
-			width:100px;
-			height: 100px;
-			background-color: red;
+		body{
+			background: url(image/bg.jpg);
+			/*让背景铺满整个空间*/
+			background-size: cover;
+			/*background-size: 100% 100%;*/
+			overflow: hidden;
+
+		}
+		img{
+			width:18px;
+			height: 18px;
+			position: absolute;
+			top:0px;
+			left:0px;
 		}
 	</style>
+	<script src="../lib/jquery-3.1.1.min.js"></script>
 </head>
 <body>
-	<div>
-		
-	</div>
+    <!-- <img src="image/1.jpg" alt=""> -->
+
+	<script>
+		$(function(){
+			var fireWorms = [];
+			for(var i = 0;i < 30;i++){
+				// 生成萤火虫节点
+				fireWorms[i] = $(' <img src="image/1.jpg" alt="">');
+				// 给其一个随机位置
+                fireWorms[i].css({'left':randomX(),'top':randomY()});
+				// 把他添加到文档
+                $(document.body).append(fireWorms[i]);
+				// 使用动画让其移动
+				fly(fireWorms[i]);
+			}
+
+			function randomX(){
+				var xPos = Math.floor(Math.random()*$(document).width());
+				return xPos + 'px';
+			}
+			function randomY(){
+				var yPos = Math.floor(Math.random()*$(document).height());
+				return yPos + 'px';
+			}
+			function randomSpeed(){
+				var speed = Math.floor(Math.random()*1000 + 5000);
+				return speed;
+			}
+			function fly(ele){
+				ele.animate({'left':randomX(),'top':randomY()},randomSpeed(),function(){
+					// 当动画结束后继续移动
+					fly(ele);
+				})
+			}
+		})
+	</script>
+
+	<!-- <script>
+		$(function(){
+			function FireWorm(){
+				this.ele = $('<img src="image/1.jpg" alt="">');
+				// 添加到body中
+				$(document.body).append(this.ele);
+				// 初始的位置
+				this.ele.css(){'left':randomX(),'top':randomY()};
+				// 新的位置
+				this.xPos = '0px';
+				this.yPos = '0px';
+				this.speed = 0;
+			}
+
+			FireWorm.prototype.fly = function(){
+				this.ele.animate({'left':this.xPos,'top':this.yPos},this.speed,function(){
+					this.newPosition().fly();
+				})
+			}
+			// 函数：生成新的位置
+            FireWorm.prototype.newPosition = function(){
+            	this.xPos = randomX();
+            	this.yPos = randomY();
+            	return this;
+            }
+			// 函数：生成速度随机数
+			FireWorm.prototype.newSpeed = function(){
+				this.speed = randomSpeed();
+			}
+
+			function randomY(){
+				var yPos = Math.floor(Math.random()*$(document.body).height());
+				return yPos + 'px';
+			}
+			function randomSpeed(){
+				var speed = Math.floor(Math.random()*1000 + 1000);
+				return speed;
+			}
+			function fly(ele){
+				ele.animate({'left':randomX(),'top':randomY()},randomSpeed(),function(){
+					// 当动画结束后继续移动
+					fly(ele);
+				})
+			}
+
+			for(var i = 0;i < 30;i++){
+				var fireWorm = new FireWorm();
+				fireWorm.newPosition().fly();
+			}
+		})
+	</script> -->
 </body>
 </html>
